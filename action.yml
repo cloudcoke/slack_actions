@@ -2,9 +2,9 @@ name: Actions Slack Message
 description: Send to Actions result
 
 inputs:
-    status:
-        description: "Actions Status"
-        required: true
+    # status:
+    #     description: "Actions Status"
+    #     required: true
     slack-webhook-url:
         description: "Slack Webhook URL"
         required: true
@@ -12,20 +12,27 @@ inputs:
 runs:
     using: composite
     steps:
+        - name: If Actions Failure
+          if: ${{failure()}}
+          run: |
+              echo "ACTIONS_STATUS=⛔ Failure" >> $GITHUB_ENV
+              echo "COLOR=#FF0000" >> $GITHUB_ENV
+          shell: bash
+
+        - name: If Actions Success
+          if: ${{success()}}
+          run: |
+              echo "ACTIONS_STATUS=✅ Success" >> $GITHUB_ENV
+              echo "COLOR=#36a64f" >> $GITHUB_ENV
+          shell: bash
+
         - name: Set Variables
           run: |
               echo "SHORT_GITHUB_SHA=${GITHUB_SHA::6}" >> $GITHUB_ENV
-
-              if [ "${{inputs.status}}" = "Success" ]; then
-                echo "ACTIONS_STATUS=✅ Success" >> $GITHUB_ENV
-                echo "COLOR=#36a64f" >> $GITHUB_ENV
-              else
-                echo "ACTIONS_STATUS=⛔ Failure" >> $GITHUB_ENV
-                echo "COLOR=#FF0000" >> $GITHUB_ENV
-              fi
           shell: bash
 
         - name: Send custom JSON data to Slack workflow
+          if: ${{always()}}
           id: slack
           uses: slackapi/slack-github-action@v1.24.0
           with:
