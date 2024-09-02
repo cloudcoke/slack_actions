@@ -34,7 +34,7 @@ runs:
         - name: Send custom JSON data to Slack workflow
           if: ${{always()}}
           id: slack
-          uses: slackapi/slack-github-action@v1.24.0
+          uses: slackapi/slack-github-action@v1.27.0
           with:
               payload: |
                   {
