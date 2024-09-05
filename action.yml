@@ -80,17 +80,10 @@ runs:
                                       ]
                                   },
                                   {
-                                    "type": "section",
-                                    "text": {
-                                        "type": "mrkdwn",
-                                        "text": "*Commit Message:*"
-                                    }
-                                  },
-                                  {
                                       "type": "section",
                                       "text": {
                                           "type": "mrkdwn",
-                                          "text": ${{ toJSON(github.event.head_commit.message) }}
+                                          "text": "*Commit Message:*\n${{github.event.workflow_run.head_commit.message}}"
                                       }
                                   }
                               ]
