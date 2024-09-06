@@ -76,6 +76,10 @@ runs:
                                           {
                                               "type": "mrkdwn",
                                               "text": "*Branch*\n${{github.ref_name}}"
+                                          },
+                                          {
+                                              "type": "mrkdwn",
+                                              "text": "*Workflow*\n${{github.workflow}}"
                                           }
                                       ]
                                   },
