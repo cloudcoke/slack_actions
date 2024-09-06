@@ -17,10 +17,10 @@ runs:
               echo "SHORT_GITHUB_SHA=${GITHUB_SHA::6}" >> $GITHUB_ENV
 
               if [ "${{inputs.status}}" = "Success" ]; then
-                echo "ACTIONS_STATUS=✅" >> $GITHUB_ENV
+                echo "ACTIONS_STATUS=✅ Success" >> $GITHUB_ENV
                 echo "COLOR=#36a64f" >> $GITHUB_ENV
               else
-                echo "ACTIONS_STATUS=⛔" >> $GITHUB_ENV
+                echo "ACTIONS_STATUS=⛔ Failure" >> $GITHUB_ENV
                 echo "COLOR=#FF0000" >> $GITHUB_ENV
               fi
           shell: bash
