@@ -30,7 +30,7 @@ runs:
             if [ -z "${{ github.event.head_commit.message }}" ]; then
                 echo "COMMIT_MESSAGE=No commit message" >> $GITHUB_ENV
             else
-                echo "COMMIT_MESSAGE=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_ENV
+                echo "COMMIT_MESSAGE=${{ github.event.head_commit.message }}" >> $GITHUB_ENV
             fi
           shell: bash
 
@@ -99,7 +99,7 @@ runs:
                                       "type": "section",
                                       "text": {
                                           "type": "mrkdwn",
-                                          "text": ${{ env.COMMIT_MESSAGE }}
+                                          "text": ${{ toJSON(env.COMMIT_MESSAGE) }}
                                       }
                                   }
                               ]
