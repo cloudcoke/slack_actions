@@ -86,12 +86,24 @@ runs:
                                         "text": "*Commit Message:*"
                                     }
                                   },
-                                  {
-                                      "type": "section",
-                                      "text": {
-                                          "type": "mrkdwn",
-                                          "text": ${{ toJSON(github.event.head_commit.message) || 'No commit message' }}
-                                      }
+                                  ${
+                                    github.event.head_commit.message ? `
+                                    {
+                                        "type": "section",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": ${{ toJSON(github.event.head_commit.message) }}
+                                        }
+                                    }
+                                    ` : `
+                                    {
+                                        "type": "section",
+                                        "text": {
+                                            "type": "mrkdwn",
+                                            "text": "No commit message"
+                                        }
+                                    }
+                                    `
                                   }
                               ]
                           }
