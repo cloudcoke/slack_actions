@@ -25,6 +25,15 @@ runs:
               fi
           shell: bash
 
+        - name: Check Values
+          run: |
+            if [ -z "${{ github.event.head_commit.message }}" ]; then
+                echo "COMMIT_MESSAGE=No commit message" >> $GITHUB_ENV
+            else
+                echo "COMMIT_MESSAGE=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_ENV
+            fi
+          shell: bash
+
         - name: Send custom JSON data to Slack workflow
           id: slack
           uses: slackapi/slack-github-action@v1.27.0
@@ -86,24 +95,12 @@ runs:
                                         "text": "*Commit Message:*"
                                     }
                                   },
-                                  ${
-                                    github.event.head_commit.message ? `
-                                    {
-                                        "type": "section",
-                                        "text": {
-                                            "type": "mrkdwn",
-                                            "text": ${{ toJSON(github.event.head_commit.message) }}
-                                        }
-                                    }
-                                    ` : `
-                                    {
-                                        "type": "section",
-                                        "text": {
-                                            "type": "mrkdwn",
-                                            "text": "No commit message"
-                                        }
-                                    }
-                                    `
+                                  {
+                                      "type": "section",
+                                      "text": {
+                                          "type": "mrkdwn",
+                                          "text": ${{ env.COMMIT_MESSAGE }}
+                                      }
                                   }
                               ]
                           }
